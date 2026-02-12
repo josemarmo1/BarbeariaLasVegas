@@ -3,143 +3,316 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Barbearia Las• Portal do Cliente</title>
+  <title>Barbearia Las Vegas • Portal do Cliente</title>
   <link rel="icon" href="assets/logo.png">
   <style>
 :root{
-  --bg:#0b0c10;
-  --panel:#12141b;
-  --panel2:#171a22;
+  --bg:#07080c;
+  --panel: rgba(18,20,27,.62);
+  --panel2: rgba(23,26,34,.62);
   --text:#f5f7ff;
   --muted:#aab0c0;
-  --brand:#ffd166;
-  --brand2:#fca311;
+  --line:rgba(255,255,255,.10);
+  --shadow: 0 18px 60px rgba(0,0,0,.58);
+  --radius: 18px;
+
+  /* Vegas neon */
+  --gold:#ffd166;
+  --gold2:#fca311;
+  --pink:#ff4fd8;
+  --cyan:#2de2e6;
+  --violet:#8b5cf6;
+
   --ok:#2dd4bf;
   --bad:#fb7185;
-  --line:rgba(255,255,255,.08);
-  --shadow: 0 18px 60px rgba(0,0,0,.55);
-  --radius: 18px;
 }
+
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
   margin:0; color:var(--text);
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
   background:
-    radial-gradient(1000px 500px at 10% 0%, rgba(255,209,102,.12), transparent 60%),
-    radial-gradient(800px 500px at 90% 10%, rgba(252,163,17,.10), transparent 55%),
-    linear-gradient(180deg, #07080c, #0b0c10 30%, #0b0c10);
+    radial-gradient(900px 500px at 15% 0%, rgba(255,79,216,.14), transparent 62%),
+    radial-gradient(800px 500px at 85% 5%, rgba(45,226,230,.12), transparent 60%),
+    radial-gradient(700px 450px at 50% 95%, rgba(255,209,102,.10), transparent 55%),
+    linear-gradient(180deg, #05060a, #07080c 30%, #07080c);
+  overflow-x:hidden;
 }
+
+/* subtle film grain */
+body:before{
+  content:"";
+  position:fixed; inset:0;
+  pointer-events:none;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,.04) 0 1px, transparent 2px),
+    radial-gradient(circle at 80% 60%, rgba(255,255,255,.03) 0 1px, transparent 2px);
+  background-size: 220px 220px, 260px 260px;
+  opacity:.35;
+  mix-blend-mode: overlay;
+}
+
 a{color:inherit; text-decoration:none}
 .container{max-width:1100px; margin:0 auto; padding:24px}
+@media (max-width:520px){ .container{padding:14px} }
+
+/* ===== Topbar neon ===== */
 .topbar{
-  display:flex; align-items:center; justify-content:space-between; gap:16px;
-  padding:14px 16px; border:1px solid var(--line);
-  background:rgba(18,20,27,.65); backdrop-filter: blur(10px);
-  border-radius: var(--radius); box-shadow: var(--shadow);
+  position:relative;
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  padding:14px 14px;
+  border:1px solid var(--line);
+  background: linear-gradient(180deg, rgba(18,20,27,.72), rgba(18,20,27,.50));
+  backdrop-filter: blur(10px);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+  overflow:hidden;
 }
+
+/* “light sweep” (tesoura/navalha vibe sem imagens externas) */
+.topbar:after{
+  content:"";
+  position:absolute;
+  inset:-40% -40%;
+  background:
+    linear-gradient(115deg,
+      transparent 0%,
+      rgba(255,79,216,.08) 35%,
+      rgba(45,226,230,.10) 45%,
+      rgba(255,209,102,.10) 55%,
+      transparent 70%
+    );
+  transform: translateX(-35%);
+  animation: sweep 6.2s linear infinite;
+  pointer-events:none;
+  filter: blur(0.4px);
+}
+@keyframes sweep{
+  0%{ transform: translateX(-45%) rotate(0.001deg); }
+  100%{ transform: translateX(45%) rotate(0.001deg); }
+}
+
 .brand{display:flex; align-items:center; gap:12px; min-width:0;}
-.brand img{height:44px; width:auto; border-radius:12px; border:1px solid var(--line); background:#fff}
-.brand .titles{min-width:0}
-.brand .titles .name{font-weight:800; letter-spacing:.5px}
-.brand .titles .sub{font-size:12px; color:var(--muted); margin-top:2px}
-.navlinks{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end}
-.badge{
-  font-size:12px; color:var(--muted); border:1px solid var(--line);
-  padding:6px 10px; border-radius:999px; background:rgba(23,26,34,.7);
+.brand img{
+  height:44px; width:44px; object-fit:cover;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.14);
+  background:#fff;
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,.30) inset,
+    0 0 16px rgba(45,226,230,.10);
 }
+.brand .titles{min-width:0}
+.brand .titles .name{
+  font-weight:900; letter-spacing:.4px;
+  text-shadow: 0 0 14px rgba(255,79,216,.12);
+}
+.brand .titles .sub{font-size:12px; color:var(--muted); margin-top:2px}
+
+.navlinks{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; align-items:center; z-index:1}
+.badge{
+  font-size:12px; color:rgba(245,247,255,.88);
+  border:1px solid rgba(255,255,255,.12);
+  padding:7px 10px; border-radius:999px;
+  background: rgba(23,26,34,.55);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 18px rgba(255,209,102,.06);
+}
+
+/* ===== Buttons ===== */
 .btn{
-  cursor:pointer; border:1px solid var(--line);
-  background:linear-gradient(180deg, rgba(255,209,102,.14), rgba(255,209,102,.06));
+  cursor:pointer;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(23,26,34,.55);
   color:var(--text);
-  padding:10px 12px; border-radius:14px;
-  transition: transform .06s ease, border-color .2s ease, background .2s ease;
-  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  padding:10px 12px;
+  border-radius:14px;
+  transition: transform .08s ease, border-color .2s ease, box-shadow .2s ease, background .2s ease;
+  box-shadow: 0 10px 28px rgba(0,0,0,.34);
   user-select:none;
   display:inline-flex; align-items:center; gap:8px;
+  white-space:nowrap;
 }
-.btn:hover{transform: translateY(-1px); border-color: rgba(255,209,102,.35)}
+.btn:hover{
+  transform: translateY(-1px);
+  border-color: rgba(255,79,216,.28);
+  box-shadow: 0 12px 34px rgba(0,0,0,.40), 0 0 0 3px rgba(255,79,216,.10) inset;
+}
 .btn:active{transform: translateY(0px)}
-.btn.secondary{ background: rgba(23,26,34,.6); }
-.btn.danger{ background: rgba(251,113,133,.10); }
-.btn.ok{ background: rgba(45,212,191,.10); }
+.btn.secondary{
+  background:
+    linear-gradient(180deg, rgba(255,79,216,.10), rgba(23,26,34,.45));
+  border-color: rgba(255,79,216,.18);
+}
+.btn.primary{
+  background:
+    linear-gradient(180deg, rgba(255,209,102,.18), rgba(255,209,102,.06));
+  border-color: rgba(255,209,102,.26);
+}
+.btn.primary:hover{
+  border-color: rgba(255,209,102,.40);
+  box-shadow: 0 12px 34px rgba(0,0,0,.40), 0 0 0 3px rgba(255,209,102,.12) inset;
+}
+
 .grid{
   display:grid; gap:16px;
   grid-template-columns: 1.1fr .9fr;
-  margin-top:18px;
+  margin-top:16px;
 }
 @media (max-width: 920px){
   .grid{grid-template-columns: 1fr}
   .navlinks{justify-content:flex-start}
 }
+@media (max-width:520px){
+  .topbar{flex-direction:column; align-items:stretch}
+  .navlinks{justify-content:flex-start}
+  .badge{width:fit-content}
+  .btn{width:100%; justify-content:center}
+}
+
+/* ===== Cards ===== */
 .card{
-  border:1px solid var(--line);
-  background: rgba(18,20,27,.55);
-  backdrop-filter: blur(10px);
-  border-radius: var(--radius);
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(18,20,27,.56);
+  backdrop-filter: blur(12px);
+  border-radius: 22px;
   box-shadow: var(--shadow);
   padding:16px;
+  position:relative;
+  overflow:hidden;
 }
-.card h2{margin:0 0 10px 0; font-size:18px}
+.card:before{
+  content:"";
+  position:absolute; inset:-1px;
+  border-radius: 22px;
+  padding:1px;
+  background:
+    linear-gradient(120deg,
+      rgba(255,79,216,.22),
+      rgba(45,226,230,.18),
+      rgba(255,209,102,.16),
+      rgba(255,255,255,.06)
+    );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events:none;
+  opacity:.55;
+}
+
+.card h2{
+  margin:0 0 10px 0;
+  font-size:18px;
+  letter-spacing:.2px;
+  text-shadow: 0 0 18px rgba(45,226,230,.10);
+}
 .muted{color:var(--muted)}
-.hr{height:1px; background:var(--line); margin:14px 0}
+.hr{height:1px; background:rgba(255,255,255,.10); margin:14px 0}
 .row{display:flex; gap:10px; flex-wrap:wrap}
 .field{ display:flex; flex-direction:column; gap:6px; margin:10px 0; }
 .field label{font-size:12px; color:var(--muted)}
 .input, select, textarea{
   width:100%;
-  padding:10px 12px;
+  padding:11px 12px;
   border-radius:14px;
-  border:1px solid var(--line);
-  background: rgba(23,26,34,.7);
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(23,26,34,.60);
   color:var(--text);
   outline:none;
 }
+.input:focus, select:focus, textarea:focus{
+  border-color: rgba(45,226,230,.38);
+  box-shadow: 0 0 0 3px rgba(45,226,230,.12);
+}
 textarea{min-height:90px; resize:vertical}
+
 .list{ display:flex; flex-direction:column; gap:10px; }
 .item{
-  border:1px solid var(--line);
+  border:1px solid rgba(255,255,255,.10);
   border-radius:16px;
   padding:12px;
-  background: rgba(23,26,34,.55);
+  background: rgba(23,26,34,.45);
 }
 .item .top{display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap}
-.item .title{font-weight:750}
+.item .title{font-weight:800}
 .item .meta{color:var(--muted); font-size:12px; margin-top:4px}
+
 .pills{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
 .pill{
   font-size:12px; padding:6px 10px; border-radius:999px;
-  border:1px solid var(--line);
-  background: rgba(18,20,27,.6);
-  color: var(--muted);
+  border:1px solid rgba(255,255,255,.10);
+  background: rgba(18,20,27,.55);
+  color: rgba(245,247,255,.82);
 }
-.pill.brand{color: var(--brand); border-color: rgba(255,209,102,.25)}
+.pill.brand{color: var(--gold); border-color: rgba(255,209,102,.25)}
 .pill.ok{color: var(--ok); border-color: rgba(45,212,191,.25)}
 .pill.bad{color: var(--bad); border-color: rgba(251,113,133,.25)}
-.pill.info{color:#93c5fd; border-color: rgba(147,197,253,.25)}
-.slots{ display:flex; flex-wrap:wrap; gap:10px; }
-.slot{
-  padding:10px 12px; border-radius:14px;
-  border:1px solid var(--line);
-  background: rgba(23,26,34,.6);
-  cursor:pointer;
-  transition: transform .06s ease, border-color .2s ease;
+.pill.info{color: #93c5fd; border-color: rgba(147,197,253,.25)}
+
+.slots{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
+  gap:10px;
+  margin-top:8px;
 }
-.slot:hover{transform: translateY(-1px); border-color: rgba(255,209,102,.35)}
-.slot[aria-selected="true"]{border-color: rgba(45,212,191,.55); box-shadow: 0 0 0 3px rgba(45,212,191,.12) inset}
-.slot[aria-disabled="true"]{opacity:.45; cursor:not-allowed; transform:none}
-.footer{ margin:22px 0 10px 0; color:var(--muted); font-size:12px; }
+.slot{
+  padding:10px 10px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(23,26,34,.55);
+  cursor:pointer;
+  transition: transform .08s ease, border-color .2s ease, box-shadow .2s ease, background .2s ease;
+  color: var(--text);                 /* <- GARANTE TEXTO CLARO */
+  font-weight:700;
+  letter-spacing:.2px;
+}
+.slot:hover{
+  transform: translateY(-1px);
+  border-color: rgba(255,79,216,.30);
+  box-shadow: 0 0 0 3px rgba(255,79,216,.10) inset, 0 10px 26px rgba(0,0,0,.35);
+}
+.slot[aria-selected="true"]{
+  border-color: rgba(45,226,230,.55);
+  box-shadow: 0 0 0 3px rgba(45,226,230,.14) inset, 0 0 18px rgba(45,226,230,.12);
+  background: rgba(45,226,230,.08);
+}
+.slot[aria-disabled="true"]{
+  opacity:.42;
+  cursor:not-allowed;
+  transform:none;
+  box-shadow:none;
+}
+.slot:disabled{ color: rgba(245,247,255,.72); }
+
+.footer{ margin:18px 0 4px 0; color:var(--muted); font-size:12px; }
+
 .toast{
   position:fixed; right:18px; bottom:18px; max-width:min(420px, calc(100vw - 36px));
   padding:12px 14px; border-radius:16px;
-  border:1px solid var(--line);
-  background: rgba(18,20,27,.82);
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(18,20,27,.86);
   backdrop-filter: blur(10px);
   box-shadow: var(--shadow);
   display:none;
+  z-index:9999;
 }
 .toast.show{display:block}
+
+/* small helper */
 .small{font-size:12px}
+
+/* neon flicker on tiny elements */
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  40% { opacity: .92; }
+  60% { opacity: 1; }
+  62% { opacity: .78; }
+  66% { opacity: 1; }
+}
+.badge{ animation: flicker 5.4s infinite; }
   </style>
 </head>
 <body>
@@ -149,20 +322,22 @@ textarea{min-height:90px; resize:vertical}
         <img src="assets/logo.png" alt="Logo">
         <div class="titles">
           <div class="name" id="brandName">Barbearia Las Vegas</div>
-          <div class="sub">Agende em segundos • Supabase</div>
+          <div class="sub">Agende em segundos</div>
         </div>
       </div>
       <div class="navlinks">
         <span class="badge" id="kOpen">Carregando…</span>
-        <a class="btn secondary" href="barbeiro/">Área do Barbeiro</a>
-        <a class="btn secondary" href="admin/">Admin</a>
+
+        <!-- LINKS CORRIGIDOS (Live Server + GitHub Pages) -->
+        <a class="btn secondary" href="./barbeiro/" aria-label="Ir para área do barbeiro">Área do Barbeiro</a>
+        <a class="btn primary" href="./admin/" aria-label="Ir para área do admin">Admin</a>
       </div>
     </div>
 
     <div class="grid">
       <div class="card">
         <h2>Agendar horário</h2>
-        <div class="muted small">Escolha o serviço, barbeiro, data e horário. Tudo vem do Admin (Supabase).</div>
+        <div class="muted small">Escolha serviço, barbeiro, data e horário.</div>
         <div class="hr"></div>
 
         <div class="row">
@@ -208,7 +383,7 @@ textarea{min-height:90px; resize:vertical}
 
         <div class="row" style="justify-content:space-between; align-items:center">
           <div class="muted small" id="policyText"></div>
-          <button class="btn" id="confirmBtn">Confirmar agendamento</button>
+          <button class="btn primary" id="confirmBtn">Confirmar agendamento</button>
         </div>
 
         <div class="hr"></div>
@@ -244,7 +419,7 @@ textarea{min-height:90px; resize:vertical}
         <div id="myList" class="list"></div>
 
         <div class="footer">
-          Portal do cliente salvando no Supabase.
+          Dica: salve o código do seu agendamento (fica no comprovante).
         </div>
       </div>
     </div>
@@ -252,7 +427,6 @@ textarea{min-height:90px; resize:vertical}
 
   <div id="toast" class="toast"></div>
 
-  <!-- Supabase via CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
@@ -318,12 +492,12 @@ const LV = (() => {
   </script>
 
   <script>
-/** SUPABASE */
+/** SUPABASE (mantido) */
 const SUPABASE_URL = "https://dpvgcjzsigaqnqainmro.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_931ojZ41L4aq-rctZFIFuw_-3qCo1qB";
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-/** DB */
+/** DB (mantido) */
 const DB = {
   async getConfig(){
     const { data, error } = await sb.from("lv_config").select("*").eq("id", 1).maybeSingle();
@@ -345,7 +519,6 @@ const DB = {
     if(error) throw error;
     return data || [];
   },
-
   async listBookingsForSlotCalc({ dateISO, barberId }){
     const { data, error } = await sb
       .from("lv_bookings")
@@ -353,16 +526,13 @@ const DB = {
       .eq("date_iso", dateISO)
       .eq("barber_id", barberId)
       .not("status", "in", '("cancelado","nao_compareceu")');
-
     if(error) throw error;
     return data || [];
   },
-
   async createBooking(b){
     const { error } = await sb.from("lv_bookings").insert(b);
     if(error) throw error;
   },
-
   async listMyBookingsByPhone(phone){
     const { data, error } = await sb
       .from("lv_bookings")
@@ -370,18 +540,15 @@ const DB = {
       .eq("customer_phone", phone)
       .order("date_iso", { ascending:true })
       .order("time_hhmm", { ascending:true });
-
     if(error) throw error;
     return data || [];
   },
-
   async cancelBooking({ id, phone }){
     const { error } = await sb
       .from("lv_bookings")
       .update({ status: "cancelado", updated_at: new Date().toISOString() })
       .eq("id", id)
       .eq("customer_phone", phone);
-
     if(error) throw error;
   }
 };
@@ -440,7 +607,7 @@ function refreshTop(){
 
   const cancelH = Math.round((CFG?.cancel_limit_min ?? 180)/60);
   const advH = Math.round((CFG?.min_advance_min ?? 60)/60);
-  elPolicy.textContent = `Cancelamento até ${cancelH}h antes. Antecedência mínima: ${advH}h.`;
+  elPolicy.textContent = `Cancelamento até ${cancelH}h antes • Antecedência mínima: ${advH}h.`;
 }
 
 function fillSelects(){
@@ -590,16 +757,6 @@ function downloadICS(b){
     pad(d.getUTCMonth()+1)+
     pad(d.getUTCDate())+"T"+
     pad(d.getUTCHours())+
-    pad(d.getUTCHours()===undefined?0:d.getUTCHours())+
-    pad(d.getUTCMinutes())+
-    pad(d.getUTCSeconds())+"Z"
-  );
-
-  const toICS2 = (d)=>(
-    d.getUTCFullYear()+
-    pad(d.getUTCMonth()+1)+
-    pad(d.getUTCDate())+"T"+
-    pad(d.getUTCHours())+
     pad(d.getUTCMinutes())+
     pad(d.getUTCSeconds())+"Z"
   );
@@ -610,9 +767,9 @@ VERSION:2.0
 PRODID:-//Las Vegas Barbearia//Agendamento//PT-BR
 BEGIN:VEVENT
 UID:${b.id}
-DTSTAMP:${toICS2(new Date())}
-DTSTART:${toICS2(start)}
-DTEND:${toICS2(end)}
+DTSTAMP:${toICS(new Date())}
+DTSTART:${toICS(start)}
+DTEND:${toICS(end)}
 SUMMARY:${(CFG?.brand_name||"Barbearia")} - ${b.service_name}
 DESCRIPTION:Barbeiro: ${b.barber_name}\\nCódigo: ${b.id}
 END:VEVENT
@@ -749,7 +906,9 @@ async function renderMyBookings(){
         </div>
         <div class="row">
           <button class="btn secondary" data-act="ics">Calendário</button>
-          <button class="btn danger" data-act="cancel" ${cancelDisabled ? "disabled":""}>Cancelar</button>
+          <button class="btn" data-act="cancel" ${cancelDisabled ? "disabled":""} style="border-color: rgba(251,113,133,.22); background: rgba(251,113,133,.08);">
+            Cancelar
+          </button>
         </div>
       </div>
     `;
