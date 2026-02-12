@@ -1,0 +1,823 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Barbearia Las Vegas • Portal do Cliente</title>
+  <link rel="icon" href="assets/logo.png">
+  <style>
+:root{
+  --bg:#0b0c10;
+  --panel:#12141b;
+  --panel2:#171a22;
+  --text:#f5f7ff;
+  --muted:#aab0c0;
+  --brand:#ffd166;
+  --brand2:#fca311;
+  --ok:#2dd4bf;
+  --bad:#fb7185;
+  --line:rgba(255,255,255,.08);
+  --shadow: 0 18px 60px rgba(0,0,0,.55);
+  --radius: 18px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; color:var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  background:
+    radial-gradient(1000px 500px at 10% 0%, rgba(255,209,102,.12), transparent 60%),
+    radial-gradient(800px 500px at 90% 10%, rgba(252,163,17,.10), transparent 55%),
+    linear-gradient(180deg, #07080c, #0b0c10 30%, #0b0c10);
+}
+a{color:inherit; text-decoration:none}
+.container{max-width:1100px; margin:0 auto; padding:24px}
+.topbar{
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding:14px 16px; border:1px solid var(--line);
+  background:rgba(18,20,27,.65); backdrop-filter: blur(10px);
+  border-radius: var(--radius); box-shadow: var(--shadow);
+}
+.brand{display:flex; align-items:center; gap:12px; min-width:0;}
+.brand img{height:44px; width:auto; border-radius:12px; border:1px solid var(--line); background:#fff}
+.brand .titles{min-width:0}
+.brand .titles .name{font-weight:800; letter-spacing:.5px}
+.brand .titles .sub{font-size:12px; color:var(--muted); margin-top:2px}
+.navlinks{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end}
+.badge{
+  font-size:12px; color:var(--muted); border:1px solid var(--line);
+  padding:6px 10px; border-radius:999px; background:rgba(23,26,34,.7);
+}
+.btn{
+  cursor:pointer; border:1px solid var(--line);
+  background:linear-gradient(180deg, rgba(255,209,102,.14), rgba(255,209,102,.06));
+  color:var(--text);
+  padding:10px 12px; border-radius:14px;
+  transition: transform .06s ease, border-color .2s ease, background .2s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  user-select:none;
+  display:inline-flex; align-items:center; gap:8px;
+}
+.btn:hover{transform: translateY(-1px); border-color: rgba(255,209,102,.35)}
+.btn:active{transform: translateY(0px)}
+.btn.secondary{ background: rgba(23,26,34,.6); }
+.btn.danger{ background: rgba(251,113,133,.10); }
+.btn.ok{ background: rgba(45,212,191,.10); }
+.grid{
+  display:grid; gap:16px;
+  grid-template-columns: 1.1fr .9fr;
+  margin-top:18px;
+}
+@media (max-width: 920px){
+  .grid{grid-template-columns: 1fr}
+  .navlinks{justify-content:flex-start}
+}
+.card{
+  border:1px solid var(--line);
+  background: rgba(18,20,27,.55);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding:16px;
+}
+.card h2{margin:0 0 10px 0; font-size:18px}
+.muted{color:var(--muted)}
+.hr{height:1px; background:var(--line); margin:14px 0}
+.row{display:flex; gap:10px; flex-wrap:wrap}
+.field{ display:flex; flex-direction:column; gap:6px; margin:10px 0; }
+.field label{font-size:12px; color:var(--muted)}
+.input, select, textarea{
+  width:100%;
+  padding:10px 12px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background: rgba(23,26,34,.7);
+  color:var(--text);
+  outline:none;
+}
+textarea{min-height:90px; resize:vertical}
+.list{ display:flex; flex-direction:column; gap:10px; }
+.item{
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:12px;
+  background: rgba(23,26,34,.55);
+}
+.item .top{display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap}
+.item .title{font-weight:750}
+.item .meta{color:var(--muted); font-size:12px; margin-top:4px}
+.pills{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
+.pill{
+  font-size:12px; padding:6px 10px; border-radius:999px;
+  border:1px solid var(--line);
+  background: rgba(18,20,27,.6);
+  color: var(--muted);
+}
+.pill.brand{color: var(--brand); border-color: rgba(255,209,102,.25)}
+.pill.ok{color: var(--ok); border-color: rgba(45,212,191,.25)}
+.pill.bad{color: var(--bad); border-color: rgba(251,113,133,.25)}
+.pill.info{color:#93c5fd; border-color: rgba(147,197,253,.25)}
+.slots{ display:flex; flex-wrap:wrap; gap:10px; }
+.slot{
+  padding:10px 12px; border-radius:14px;
+  border:1px solid var(--line);
+  background: rgba(23,26,34,.6);
+  cursor:pointer;
+  transition: transform .06s ease, border-color .2s ease;
+}
+.slot:hover{transform: translateY(-1px); border-color: rgba(255,209,102,.35)}
+.slot[aria-selected="true"]{border-color: rgba(45,212,191,.55); box-shadow: 0 0 0 3px rgba(45,212,191,.12) inset}
+.slot[aria-disabled="true"]{opacity:.45; cursor:not-allowed; transform:none}
+.footer{ margin:22px 0 10px 0; color:var(--muted); font-size:12px; }
+.toast{
+  position:fixed; right:18px; bottom:18px; max-width:min(420px, calc(100vw - 36px));
+  padding:12px 14px; border-radius:16px;
+  border:1px solid var(--line);
+  background: rgba(18,20,27,.82);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow);
+  display:none;
+}
+.toast.show{display:block}
+.small{font-size:12px}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <div class="brand">
+        <img src="assets/logo.png" alt="Logo">
+        <div class="titles">
+          <div class="name" id="brandName">Barbearia Las Vegas</div>
+          <div class="sub">Agende em segundos • Supabase</div>
+        </div>
+      </div>
+      <div class="navlinks">
+        <span class="badge" id="kOpen">Carregando…</span>
+        <a class="btn secondary" href="barbeiro/">Área do Barbeiro</a>
+        <a class="btn secondary" href="admin/">Admin</a>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Agendar horário</h2>
+        <div class="muted small">Escolha o serviço, barbeiro, data e horário. Tudo vem do Admin (Supabase).</div>
+        <div class="hr"></div>
+
+        <div class="row">
+          <div style="flex:1; min-width:220px" class="field">
+            <label>Serviço</label>
+            <select id="svc"></select>
+          </div>
+          <div style="flex:1; min-width:220px" class="field">
+            <label>Barbeiro</label>
+            <select id="barber"></select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div style="flex:1; min-width:220px" class="field">
+            <label>Data</label>
+            <select id="date"></select>
+          </div>
+          <div style="flex:1; min-width:220px" class="field">
+            <label>Horários disponíveis</label>
+            <div id="slots" class="slots"></div>
+            <div class="muted small" id="slotsHint"></div>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="row">
+          <div style="flex:1; min-width:220px" class="field">
+            <label>Seu nome</label>
+            <input class="input" id="custName" placeholder="Ex: João Silva">
+          </div>
+          <div style="flex:1; min-width:220px" class="field">
+            <label>Telefone</label>
+            <input class="input" id="custPhone" placeholder="Ex: (11) 99999-9999">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Observação (opcional)</label>
+          <textarea id="notes" placeholder="Ex: Degradê baixo, não tirar muito em cima…"></textarea>
+        </div>
+
+        <div class="row" style="justify-content:space-between; align-items:center">
+          <div class="muted small" id="policyText"></div>
+          <button class="btn" id="confirmBtn">Confirmar agendamento</button>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="item" id="receipt" style="display:none">
+          <div class="top">
+            <div>
+              <div class="title">Agendamento confirmado ✅</div>
+              <div class="meta" id="receiptMeta"></div>
+            </div>
+            <div class="pills">
+              <span class="pill ok" id="receiptCode"></span>
+              <button class="btn secondary" id="icsBtn">Adicionar ao calendário</button>
+            </div>
+          </div>
+          <div class="pills" id="receiptPills"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Meus agendamentos</h2>
+        <div class="muted small">Digite seu telefone para ver ou cancelar.</div>
+
+        <div class="row" style="align-items:end">
+          <div style="flex:1; min-width:220px" class="field">
+            <label>Telefone</label>
+            <input class="input" id="lookupPhone" placeholder="Ex: (11) 99999-9999">
+          </div>
+          <button class="btn secondary" id="lookupBtn">Buscar</button>
+        </div>
+
+        <div class="hr"></div>
+        <div id="myList" class="list"></div>
+
+        <div class="footer">
+          Portal do cliente salvando no Supabase.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <!-- Supabase via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+/* Utils */
+const LV = (() => {
+  const uid = (prefix="") => {
+    const r = Math.random().toString(36).slice(2, 8).toUpperCase();
+    const t = Date.now().toString(36).toUpperCase().slice(-4);
+    return (prefix + r + t).slice(0, 12);
+  };
+
+  const toMin = (hhmm) => {
+    const [h,m] = String(hhmm).split(":").map(Number);
+    return h*60 + (m||0);
+  };
+  const toHHMM = (mins) => {
+    const h = Math.floor(mins/60);
+    const m = mins%60;
+    return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0");
+  };
+
+  const todayISO = () => {
+    const d = new Date();
+    d.setHours(0,0,0,0);
+    return d.toISOString().slice(0,10);
+  };
+
+  const addDaysISO = (iso, days) => {
+    const d = new Date(iso+"T00:00:00");
+    d.setDate(d.getDate()+days);
+    return d.toISOString().slice(0,10);
+  };
+
+  const weekdayIndex = (iso) => new Date(iso+"T00:00:00").getDay();
+
+  const formatBR = (iso) => {
+    const d = new Date(iso+"T00:00:00");
+    const dd = String(d.getDate()).padStart(2,"0");
+    const mm = String(d.getMonth()+1).padStart(2,"0");
+    const yyyy = d.getFullYear();
+    return `${dd}/${mm}/${yyyy}`;
+  };
+
+  const toast = (msg) => {
+    const el = document.querySelector("#toast");
+    if(!el){ alert(msg); return; }
+    el.textContent = msg;
+    el.classList.add("show");
+    setTimeout(()=>el.classList.remove("show"), 2600);
+  };
+
+  const nowISOTime = () => {
+    const d = new Date();
+    const iso = d.toISOString().slice(0,10);
+    const hhmm = String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");
+    return { iso, hhmm };
+  };
+
+  const ts = (dateISO, timeHHMM) => new Date(`${dateISO}T${timeHHMM}:00`).getTime();
+
+  return { uid, toMin, toHHMM, todayISO, addDaysISO, weekdayIndex, formatBR, toast, nowISOTime, ts };
+})();
+  </script>
+
+  <script>
+/** SUPABASE */
+const SUPABASE_URL = "https://dpvgcjzsigaqnqainmro.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_931ojZ41L4aq-rctZFIFuw_-3qCo1qB";
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+/** DB */
+const DB = {
+  async getConfig(){
+    const { data, error } = await sb.from("lv_config").select("*").eq("id", 1).maybeSingle();
+    if(error) throw error;
+    return data;
+  },
+  async listServices(){
+    const { data, error } = await sb.from("lv_services").select("*").eq("active", true).order("created_at", { ascending:true });
+    if(error) throw error;
+    return data || [];
+  },
+  async listBarbers(){
+    const { data, error } = await sb.from("lv_barbers").select("*").eq("active", true).order("created_at", { ascending:true });
+    if(error) throw error;
+    return data || [];
+  },
+  async listHours(){
+    const { data, error } = await sb.from("lv_hours").select("*").order("weekday", { ascending:true });
+    if(error) throw error;
+    return data || [];
+  },
+
+  async listBookingsForSlotCalc({ dateISO, barberId }){
+    const { data, error } = await sb
+      .from("lv_bookings")
+      .select("id,time_hhmm,duration_min,status")
+      .eq("date_iso", dateISO)
+      .eq("barber_id", barberId)
+      .not("status", "in", '("cancelado","nao_compareceu")');
+
+    if(error) throw error;
+    return data || [];
+  },
+
+  async createBooking(b){
+    const { error } = await sb.from("lv_bookings").insert(b);
+    if(error) throw error;
+  },
+
+  async listMyBookingsByPhone(phone){
+    const { data, error } = await sb
+      .from("lv_bookings")
+      .select("*")
+      .eq("customer_phone", phone)
+      .order("date_iso", { ascending:true })
+      .order("time_hhmm", { ascending:true });
+
+    if(error) throw error;
+    return data || [];
+  },
+
+  async cancelBooking({ id, phone }){
+    const { error } = await sb
+      .from("lv_bookings")
+      .update({ status: "cancelado", updated_at: new Date().toISOString() })
+      .eq("id", id)
+      .eq("customer_phone", phone);
+
+    if(error) throw error;
+  }
+};
+
+/** UI */
+const elBrand = document.querySelector("#brandName");
+const elSvc = document.querySelector("#svc");
+const elBarber = document.querySelector("#barber");
+const elDate = document.querySelector("#date");
+const elSlots = document.querySelector("#slots");
+const elSlotsHint = document.querySelector("#slotsHint");
+const elPolicy = document.querySelector("#policyText");
+const elOpen = document.querySelector("#kOpen");
+
+const elName = document.querySelector("#custName");
+const elPhone = document.querySelector("#custPhone");
+const elNotes = document.querySelector("#notes");
+const elConfirm = document.querySelector("#confirmBtn");
+
+const receipt = document.querySelector("#receipt");
+const receiptMeta = document.querySelector("#receiptMeta");
+const receiptCode = document.querySelector("#receiptCode");
+const receiptPills = document.querySelector("#receiptPills");
+const icsBtn = document.querySelector("#icsBtn");
+
+const lookupPhone = document.querySelector("#lookupPhone");
+const lookupBtn = document.querySelector("#lookupBtn");
+const myList = document.querySelector("#myList");
+
+let selectedTime = null;
+let lastCreated = null;
+
+let CFG = null;
+let SERVICES = [];
+let BARBERS = [];
+let HOURS = new Map(); // weekday -> row
+
+let bookingCacheKey = "";
+let bookingCache = [];
+
+const normPhone = (p) => (p||"").replace(/\D/g,"");
+const money = (n) => (n==null||n==="") ? "" : ("R$ " + Number(n).toFixed(2).replace(".",","));
+const weekdayName = (i) => ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"][i];
+
+function getHourForISO(dateISO){
+  const wd = LV.weekdayIndex(dateISO);
+  return HOURS.get(wd) || { open:false, start_time:"09:00", end_time:"18:00" };
+}
+
+function refreshTop(){
+  elBrand.textContent = CFG?.brand_name || "Barbearia Las Vegas";
+
+  const today = LV.todayISO();
+  const h = getHourForISO(today);
+  elOpen.textContent = h.open ? `Hoje: ${h.start_time}–${h.end_time}` : "Hoje: Fechado";
+
+  const cancelH = Math.round((CFG?.cancel_limit_min ?? 180)/60);
+  const advH = Math.round((CFG?.min_advance_min ?? 60)/60);
+  elPolicy.textContent = `Cancelamento até ${cancelH}h antes. Antecedência mínima: ${advH}h.`;
+}
+
+function fillSelects(){
+  elSvc.innerHTML = "";
+  for(const s of SERVICES){
+    const opt = document.createElement("option");
+    opt.value = s.id;
+    opt.textContent = `${s.name} • ${s.duration_min}min${(s.price!=null) ? " • "+money(s.price) : ""}`;
+    elSvc.appendChild(opt);
+  }
+
+  elBarber.innerHTML = "";
+  for(const b of BARBERS){
+    const opt = document.createElement("option");
+    opt.value = b.id;
+    opt.textContent = b.name;
+    elBarber.appendChild(opt);
+  }
+
+  elDate.innerHTML = "";
+  const max = CFG?.max_days_ahead ?? 14;
+  const start = LV.todayISO();
+
+  for(let i=0;i<=max;i++){
+    const d = LV.addDaysISO(start, i);
+    const wd = LV.weekdayIndex(d);
+    const h = getHourForISO(d);
+    const opt = document.createElement("option");
+    opt.value = d;
+    opt.textContent = `${weekdayName(wd)} • ${LV.formatBR(d)}${h.open ? "" : " (fechado)"}`;
+    if(!h.open) opt.disabled = true;
+    elDate.appendChild(opt);
+  }
+}
+
+async function refreshBookingCache(){
+  const dateISO = elDate.value;
+  const barberId = elBarber.value;
+  if(!dateISO || !barberId) return;
+
+  const key = `${dateISO}__${barberId}`;
+  if(key === bookingCacheKey) return;
+
+  bookingCacheKey = key;
+  try{
+    bookingCache = await DB.listBookingsForSlotCalc({ dateISO, barberId });
+  }catch(e){
+    bookingCache = [];
+    console.error(e);
+  }
+}
+
+function computeSlotsLocal({ dateISO, barberId, serviceId }){
+  const service = SERVICES.find(s => s.id === serviceId);
+  if(!service) return { slots:[], reason:"Serviço inválido." };
+
+  const h = getHourForISO(dateISO);
+  if(!h.open) return { slots:[], reason:"Fechado neste dia." };
+
+  const startMin = LV.toMin(h.start_time);
+  const endMin = LV.toMin(h.end_time);
+  const duration = Number(service.duration_min || 30);
+  const step = Math.max(5, Number(CFG?.slot_interval_min ?? 10));
+
+  const relevant = bookingCache;
+
+  const isOverlapping = (tStartMin, tEndMin) => {
+    for(const b of relevant){
+      const bs = LV.toMin(b.time_hhmm);
+      const be = bs + Number(b.duration_min||0);
+      if(Math.max(tStartMin, bs) < Math.min(tEndMin, be)) return true;
+    }
+    return false;
+  };
+
+  const { iso: nowISO, hhmm: nowHHMM } = LV.nowISOTime();
+  const minAdvance = Number(CFG?.min_advance_min ?? 60);
+
+  const slots = [];
+  for(let t = startMin; t + duration <= endMin; t += step){
+    const time = LV.toHHMM(t);
+
+    let okAdvance = true;
+    if(dateISO === nowISO){
+      const minTs = LV.ts(nowISO, nowHHMM) + minAdvance*60*1000;
+      okAdvance = LV.ts(dateISO, time) >= minTs;
+    }
+
+    const available = okAdvance && !isOverlapping(t, t+duration);
+    slots.push({ timeHHMM: time, available });
+  }
+  return { slots, reason: slots.some(s=>s.available) ? "" : "Sem horários disponíveis." };
+}
+
+async function renderSlots(){
+  selectedTime = null;
+  elSlots.innerHTML = "";
+  elSlotsHint.textContent = "";
+
+  const dateISO = elDate.value;
+  const barberId = elBarber.value;
+  const serviceId = elSvc.value;
+  if(!dateISO || !barberId || !serviceId) return;
+
+  await refreshBookingCache();
+  const { slots, reason } = computeSlotsLocal({ dateISO, barberId, serviceId });
+  if(reason) elSlotsHint.textContent = reason;
+
+  for(const s of slots){
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "slot";
+    btn.textContent = s.timeHHMM;
+    btn.setAttribute("aria-disabled", String(!s.available));
+    btn.setAttribute("aria-selected", "false");
+    if(!s.available) btn.disabled = true;
+
+    btn.addEventListener("click", () => {
+      selectedTime = s.timeHHMM;
+      [...elSlots.querySelectorAll(".slot")].forEach(x=>x.setAttribute("aria-selected","false"));
+      btn.setAttribute("aria-selected","true");
+    });
+
+    elSlots.appendChild(btn);
+  }
+}
+
+function showReceipt(b){
+  receipt.style.display = "block";
+  receiptCode.textContent = `Código: ${b.id}`;
+  receiptMeta.textContent = `${b.customer_name} • ${LV.formatBR(b.date_iso)} às ${b.time_hhmm}`;
+
+  receiptPills.innerHTML = "";
+  const p1 = document.createElement("span"); p1.className="pill brand"; p1.textContent = b.service_name;
+  const p2 = document.createElement("span"); p2.className="pill info";  p2.textContent = `Com ${b.barber_name}`;
+  const p3 = document.createElement("span"); p3.className="pill";       p3.textContent = `${b.duration_min}min`;
+  const p4 = document.createElement("span"); p4.className="pill";       p4.textContent = b.price!=null ? ("Valor: "+money(b.price)) : "Valor: —";
+  receiptPills.append(p1,p2,p3,p4);
+}
+
+function downloadICS(b){
+  const start = new Date(`${b.date_iso}T${b.time_hhmm}:00`);
+  const end = new Date(start.getTime() + (Number(b.duration_min||30))*60000);
+  const pad = (n)=>String(n).padStart(2,"0");
+  const toICS = (d)=>(
+    d.getUTCFullYear()+
+    pad(d.getUTCMonth()+1)+
+    pad(d.getUTCDate())+"T"+
+    pad(d.getUTCHours())+
+    pad(d.getUTCHours()===undefined?0:d.getUTCHours())+
+    pad(d.getUTCMinutes())+
+    pad(d.getUTCSeconds())+"Z"
+  );
+
+  const toICS2 = (d)=>(
+    d.getUTCFullYear()+
+    pad(d.getUTCMonth()+1)+
+    pad(d.getUTCDate())+"T"+
+    pad(d.getUTCHours())+
+    pad(d.getUTCMinutes())+
+    pad(d.getUTCSeconds())+"Z"
+  );
+
+  const ics =
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Las Vegas Barbearia//Agendamento//PT-BR
+BEGIN:VEVENT
+UID:${b.id}
+DTSTAMP:${toICS2(new Date())}
+DTSTART:${toICS2(start)}
+DTEND:${toICS2(end)}
+SUMMARY:${(CFG?.brand_name||"Barbearia")} - ${b.service_name}
+DESCRIPTION:Barbeiro: ${b.barber_name}\\nCódigo: ${b.id}
+END:VEVENT
+END:VCALENDAR`;
+
+  const blob = new Blob([ics], {type:"text/calendar;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `${b.id}.ics`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function canCancel(b){
+  const limitMin = Number(CFG?.cancel_limit_min ?? 180);
+  const t = new Date(`${b.date_iso}T${b.time_hhmm}:00`).getTime();
+  return Date.now() <= (t - limitMin*60000);
+}
+
+async function createBooking(){
+  const service = SERVICES.find(s=>s.id===elSvc.value);
+  const barber = BARBERS.find(b=>b.id===elBarber.value);
+
+  if(!service || !barber) return LV.toast("Selecione serviço e barbeiro.");
+  if(!elDate.value) return LV.toast("Selecione uma data.");
+  if(!selectedTime) return LV.toast("Selecione um horário.");
+
+  const name = (elName.value||"").trim();
+  const phoneRaw = (elPhone.value||"").trim();
+  const phone = normPhone(phoneRaw);
+
+  if(name.length < 2) return LV.toast("Digite seu nome.");
+  if(phone.length < 10) return LV.toast("Digite um telefone válido.");
+
+  bookingCacheKey = "";
+  await refreshBookingCache();
+  const { slots } = computeSlotsLocal({ dateISO: elDate.value, barberId: barber.id, serviceId: service.id });
+  const found = slots.find(x=>x.timeHHMM===selectedTime);
+  if(!found || !found.available) return LV.toast("Esse horário não está mais disponível. Escolha outro.");
+
+  const code = LV.uid("LV-");
+  const booking = {
+    id: code,
+    created_at: new Date().toISOString(),
+    customer_name: name,
+    customer_phone: phone,
+    notes: (elNotes.value||"").trim(),
+    date_iso: elDate.value,
+    time_hhmm: selectedTime,
+    service_id: service.id,
+    service_name: service.name,
+    duration_min: Number(service.duration_min||30),
+    price: service.price,
+    barber_id: barber.id,
+    barber_name: barber.name,
+    status: "confirmado",
+    updated_at: new Date().toISOString()
+  };
+
+  try{
+    await DB.createBooking(booking);
+    lastCreated = booking;
+    showReceipt(booking);
+    LV.toast("Agendamento confirmado!");
+    bookingCacheKey = "";
+    await renderSlots();
+    await renderMyBookings();
+  }catch(e){
+    const msg = String(e?.message || e);
+    if(msg.toLowerCase().includes("duplicate") || msg.toLowerCase().includes("unique")){
+      LV.toast("Esse horário acabou de ser ocupado. Escolha outro.");
+      bookingCacheKey = "";
+      await renderSlots();
+      return;
+    }
+    console.error(e);
+    LV.toast("Erro ao salvar agendamento.");
+  }
+}
+
+async function renderMyBookings(){
+  const p = normPhone(lookupPhone.value);
+  myList.innerHTML = "";
+
+  if(p.length < 10){
+    myList.innerHTML = `<div class="muted small">Digite seu telefone para listar seus agendamentos.</div>`;
+    return;
+  }
+
+  let all = [];
+  try{
+    all = await DB.listMyBookingsByPhone(p);
+  }catch(e){
+    console.error(e);
+    myList.innerHTML = `<div class="muted small">Erro ao carregar agendamentos.</div>`;
+    return;
+  }
+
+  if(all.length === 0){
+    myList.innerHTML = `<div class="muted small">Nenhum agendamento encontrado para esse telefone.</div>`;
+    return;
+  }
+
+  const statusPill = (st) => {
+    const map = {
+      confirmado: ["ok","Confirmado"],
+      concluido: ["ok","Concluído"],
+      pendente: ["info","Pendente"],
+      cancelado: ["bad","Cancelado"],
+      nao_compareceu: ["bad","Não compareceu"],
+    };
+    const [cls, txt] = map[st] || ["","Status"];
+    return `<span class="pill ${cls}">${txt}</span>`;
+  };
+
+  for(const b of all){
+    const div = document.createElement("div");
+    div.className = "item";
+
+    const cancelDisabled = !canCancel(b) || ["cancelado","concluido","nao_compareceu"].includes(b.status);
+
+    div.innerHTML = `
+      <div class="top">
+        <div>
+          <div class="title">${b.service_name} • ${LV.formatBR(b.date_iso)} às ${b.time_hhmm}</div>
+          <div class="meta">Com ${b.barber_name} • Código ${b.id}</div>
+          <div class="pills">
+            ${statusPill(b.status)}
+            <span class="pill">${b.duration_min}min</span>
+          </div>
+        </div>
+        <div class="row">
+          <button class="btn secondary" data-act="ics">Calendário</button>
+          <button class="btn danger" data-act="cancel" ${cancelDisabled ? "disabled":""}>Cancelar</button>
+        </div>
+      </div>
+    `;
+
+    div.querySelector('[data-act="ics"]').addEventListener("click", ()=>downloadICS(b));
+    div.querySelector('[data-act="cancel"]').addEventListener("click", async ()=>{
+      if(!canCancel(b)) return LV.toast("Fora do prazo para cancelamento.");
+      try{
+        await DB.cancelBooking({ id: b.id, phone: p });
+        LV.toast("Agendamento cancelado.");
+        bookingCacheKey = "";
+        await renderMyBookings();
+        await renderSlots();
+      }catch(e){
+        console.error(e);
+        LV.toast("Erro ao cancelar.");
+      }
+    });
+
+    myList.appendChild(div);
+  }
+}
+
+/** Boot */
+async function boot(){
+  try{
+    CFG = await DB.getConfig();
+    if(!CFG){
+      LV.toast("Config não encontrada. Abra o Admin e salve a config.");
+      CFG = { brand_name:"Barbearia Las Vegas", slot_interval_min:10, min_advance_min:60, cancel_limit_min:180, max_days_ahead:14 };
+    }
+
+    const [services, barbers, hours] = await Promise.all([
+      DB.listServices(),
+      DB.listBarbers(),
+      DB.listHours()
+    ]);
+
+    SERVICES = services;
+    BARBERS = barbers;
+    HOURS = new Map();
+    for(const h of hours){
+      HOURS.set(Number(h.weekday), h);
+    }
+
+    refreshTop();
+    fillSelects();
+    await renderSlots();
+    await renderMyBookings();
+  }catch(e){
+    console.error(e);
+    LV.toast("Erro ao conectar no Supabase. Veja console.");
+  }
+}
+
+/** Events */
+elSvc.addEventListener("change", async ()=>{ bookingCacheKey=""; await renderSlots(); });
+elBarber.addEventListener("change", async ()=>{ bookingCacheKey=""; await renderSlots(); });
+elDate.addEventListener("change", async ()=>{ bookingCacheKey=""; await renderSlots(); });
+
+elConfirm.addEventListener("click", createBooking);
+
+lookupBtn.addEventListener("click", renderMyBookings);
+lookupPhone.addEventListener("keyup", (e)=>{ if(e.key==="Enter") renderMyBookings(); });
+
+icsBtn.addEventListener("click", ()=>{ if(lastCreated) downloadICS(lastCreated); });
+
+boot();
+  </script>
+</body>
+</html>
