@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Barbeiro</title>
+
+  <!-- ✅ Padrão do cliente -->
+  <link rel="icon" type="image/png" href="/imagens/logo.png">
+
+  <!-- Fonts (premium) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- ✅ DESIGN/ESTRUTURA IGUAL AO PADRÃO -->
+  <style>
+    :root{
+      /* ===== Paleta igual ao seu logo (vermelho + dourado/laranja + teal/azul) ===== */
+      --bg0:#071028;
+      --bg1:#0b1f3f;
+      --bg2:#0a2f4a;
+      --bg3:#113a3f;
+
+      --card: rgba(255,255,255,.085);
+      --card2: rgba(255,255,255,.06);
+      --glass: rgba(255,255,255,.05);
+      --line: rgba(255,255,255,.18);
+
+      --text:#f7f7ff;
+      --muted:#d7dde8;
+
+      --gold:#fbbf24;      /* dourado */
+      --gold2:#f97316;     /* laranja */
+      --red:#ef4444;       /* vermelho */
+      --red2:#dc2626;      /* vermelho forte */
+      --teal:#06b6d4;      /* teal */
+      --blue:#2563eb;      /* azul */
+
+      --ok:#22c55e;
+      --bad:#fb7185;
+
+      --radius: 22px;
+      --shadow: 0 24px 70px rgba(0,0,0,.45);
+    }
+
+    *{ box-sizing:border-box }
+    html,body{ height:100% }
+    body{
+      margin:0;
+      font-family: "Poppins", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      overflow-x:hidden;
+
+      background:
+        radial-gradient(900px 520px at 14% 10%, rgba(239,68,68,.18), transparent 58%),
+        radial-gradient(900px 520px at 88% 12%, rgba(6,182,212,.18), transparent 60%),
+        radial-gradient(900px 520px at 70% 92%, rgba(251,191,36,.16), transparent 62%),
+        radial-gradient(800px 520px at 18% 92%, rgba(249,115,22,.14), transparent 60%),
+        linear-gradient(135deg, var(--bg1), var(--bg2) 48%, var(--bg3));
+      background-attachment: fixed;
+    }
+
+    /* grain premium */
+    body:before{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      background-image:
+        radial-gradient(circle at 25% 25%, rgba(255,255,255,.05) 0 1px, transparent 2px),
+        radial-gradient(circle at 80% 60%, rgba(255,255,255,.04) 0 1px, transparent 2px),
+        radial-gradient(circle at 40% 75%, rgba(255,255,255,.03) 0 1px, transparent 2px);
+      background-size: 240px 240px, 300px 300px, 360px 360px;
+      opacity:.33;
+      mix-blend-mode: overlay;
+    }
+
+    a{ color:inherit; text-decoration:none }
+    .container{ max-width:1180px; margin:0 auto; padding:26px }
+    @media (max-width:520px){ .container{ padding:16px } }
+
+    /* ===== Topbar (ultra) ===== */
+    .topbar{
+      position:relative;
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+      padding:16px 18px;
+      border:1px solid var(--line);
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .topbar:after{
+      content:"";
+      position:absolute;
+      inset:-60% -60%;
+      background:
+        linear-gradient(110deg,
+          transparent 0%,
+          rgba(239,68,68,.14) 30%,
+          rgba(6,182,212,.14) 45%,
+          rgba(251,191,36,.14) 58%,
+          rgba(249,115,22,.12) 66%,
+          transparent 78%
+        );
+      transform: translateX(-40%);
+      animation: sweep 7.5s linear infinite;
+      pointer-events:none;
+      opacity:.95;
+    }
+    @keyframes sweep{
+      0%{ transform: translateX(-50%) rotate(0.001deg); }
+      100%{ transform: translateX(50%) rotate(0.001deg); }
+    }
+
+    .brand{ display:flex; align-items:center; gap:12px; min-width:0; z-index:1; }
+    .brand img{
+      height:80px;
+      width:auto;
+      object-fit:contain;
+      border:none;
+      background:transparent;
+      filter: drop-shadow(0 0 14px rgba(239,68,68,.25))
+              drop-shadow(0 0 18px rgba(251,191,36,.22))
+              drop-shadow(0 0 16px rgba(6,182,212,.18));
+    }
+
+    .titles{ min-width:0 }
+    .titles .name{
+      font-family:"Playfair Display", serif;
+      font-weight:800;
+      letter-spacing:.7px;
+      font-size:20px;
+      line-height:1.1;
+      background: linear-gradient(90deg, var(--gold), rgba(255,255,255,.98), var(--red));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      text-shadow: 0 0 18px rgba(251,191,36,.14);
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .titles .sub{
+      margin-top:2px;
+      font-size:12px;
+      color:rgba(215,221,232,.94);
+      letter-spacing:.2px;
+    }
+
+    .navlinks{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:flex-end; z-index:1 }
+
+    /* ===== Buttons ===== */
+    .btn{
+      cursor:pointer;
+      border:1px solid rgba(255,255,255,.18);
+      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
+      color:var(--text);
+      padding:11px 14px;
+      border-radius: 16px;
+      transition: transform .12s ease, box-shadow .25s ease, border-color .25s ease, filter .25s ease;
+      box-shadow: 0 14px 34px rgba(0,0,0,.25);
+      user-select:none;
+      display:inline-flex; align-items:center; gap:8px;
+      white-space:nowrap;
+      font-weight:700;
+      letter-spacing:.2px;
+    }
+    .btn:hover{
+      transform: translateY(-2px);
+      border-color: rgba(239,68,68,.28);
+      box-shadow: 0 18px 44px rgba(0,0,0,.32), 0 0 0 3px rgba(239,68,68,.10) inset;
+    }
+    .btn:active{ transform: translateY(0px) scale(.99) }
+
+    .btn.secondary{
+      border:none;
+      background: linear-gradient(90deg, rgba(6,182,212,.96), rgba(37,99,235,.92));
+      box-shadow:
+        0 18px 44px rgba(0,0,0,.30),
+        0 0 26px rgba(6,182,212,.14),
+        0 0 22px rgba(37,99,235,.12);
+    }
+    .btn.secondary:hover{
+      filter: brightness(1.03);
+      box-shadow:
+        0 22px 54px rgba(0,0,0,.34),
+        0 0 34px rgba(6,182,212,.16),
+        0 0 30px rgba(37,99,235,.14);
+    }
+
+    .btn.primary{
+      border:none;
+      color:#140c2a;
+      background: linear-gradient(90deg, var(--gold), var(--gold2));
+      box-shadow:
+        0 18px 44px rgba(0,0,0,.30),
+        0 0 28px rgba(251,191,36,.18);
+      position:relative;
+      overflow:hidden;
+    }
+    .btn.primary:after{
+      content:"";
+      position:absolute;
+      inset:-40% -40%;
+      background: linear-gradient(110deg, transparent 25%, rgba(255,255,255,.35) 45%, transparent 65%);
+      transform: translateX(-60%);
+      animation: shine 2.8s ease-in-out infinite;
+      opacity:.55;
+      pointer-events:none;
+    }
+    @keyframes shine{
+      0%{ transform: translateX(-65%); }
+      55%{ transform: translateX(65%); }
+      100%{ transform: translateX(65%); }
+    }
+
+    .btn.danger{
+      border-color: rgba(251,113,133,.26);
+      background: rgba(251,113,133,.10);
+    }
+
+    /* ===== Main grid ===== */
+    .grid{
+      display:grid;
+      gap:16px;
+      grid-template-columns: 1.1fr .9fr;
+      margin-top:16px;
+    }
+    @media (max-width: 920px){
+      .grid{ grid-template-columns: 1fr }
+      .navlinks{ justify-content:flex-start }
+    }
+    @media (max-width:520px){
+      .topbar{ flex-direction:column; align-items:stretch }
+      .navlinks{ justify-content:flex-start }
+      .btn{ width:100%; justify-content:center }
+    }
+
+    /* ===== Cards (main) ===== */
+    .card{
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.07);
+      backdrop-filter: blur(18px);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      padding:20px;
+      position:relative;
+      overflow:hidden;
+    }
+    .card:before{
+      content:"";
+      position:absolute; inset:-1px;
+      border-radius: 26px;
+      padding:1px;
+      background:
+        linear-gradient(120deg,
+          rgba(239,68,68,.22),
+          rgba(6,182,212,.16),
+          rgba(251,191,36,.16),
+          rgba(255,255,255,.06)
+        );
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events:none;
+      opacity:.62;
+    }
+
+    .card h2{
+      margin:0 0 8px 0;
+      font-family:"Playfair Display", serif;
+      font-size:22px;
+      letter-spacing:.2px;
+    }
+
+    .muted{ color:rgba(215,221,232,.92) }
+    .small{ font-size:12px }
+    .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:end }
+    .field{ display:flex; flex-direction:column; gap:7px; margin:10px 0; flex:1; min-width:220px }
+    label{ font-size:12px; color:rgba(215,221,232,.92); letter-spacing:.2px }
+
+    .input{
+      width:100%;
+      padding:12px 12px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      outline:none;
+      box-shadow: 0 10px 28px rgba(0,0,0,.18) inset;
+    }
+    .input::placeholder{ color:rgba(215,221,232,.72) }
+    .input:focus{
+      border-color: rgba(251,191,36,.60);
+      box-shadow: 0 0 0 3px rgba(251,191,36,.14), 0 14px 34px rgba(0,0,0,.22) inset;
+    }
+
+    .kpis{ display:grid; grid-template-columns: repeat(3,1fr); gap:12px }
+    @media (max-width:720px){ .kpis{ grid-template-columns: 1fr } }
+    .kpi{
+      border:1px solid rgba(255,255,255,.16);
+      border-radius: 16px;
+      padding:12px;
+      background: rgba(255,255,255,.06);
+      backdrop-filter: blur(12px);
+      position:relative;
+      overflow:hidden;
+      box-shadow: 0 18px 44px rgba(0,0,0,.22);
+    }
+    .kpi:after{
+      content:"";
+      position:absolute; inset:-40% -40%;
+      background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.16) 50%, transparent 70%);
+      transform: translateX(-65%);
+      animation: statShine 6.5s ease-in-out infinite;
+      opacity:.35;
+      pointer-events:none;
+    }
+    .kpi .v{ font-weight:900; font-size:18px; letter-spacing:.2px }
+    .kpi .l{ color:rgba(215,221,232,.92); font-size:12px; margin-top:2px }
+
+    .list{ display:flex; flex-direction:column; gap:10px; }
+
+    .item{
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:20px;
+      padding:14px;
+      background: rgba(255,255,255,.06);
+      box-shadow: 0 18px 44px rgba(0,0,0,.24);
+    }
+    .item .top{ display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; align-items:flex-start }
+
+    .pill{
+      font-size:12px; padding:7px 10px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: rgba(247,247,255,.92);
+      letter-spacing:.15px;
+      font-weight:700;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+    }
+    .pill.ok{ color: var(--ok); border-color: rgba(34,197,94,.28) }
+    .pill.bad{ color: var(--bad); border-color: rgba(251,113,133,.28) }
+    .pill.info{ color:#93c5fd; border-color: rgba(147,197,253,.28) }
+
+    /* Toast (padrão) */
+    .toast{
+      position:fixed; right:18px; bottom:18px; max-width:min(420px, calc(100vw - 36px));
+      padding:12px 14px; border-radius:18px;
+      border:1px solid rgba(255,255,255,.16);
+      background:
+        radial-gradient(300px 160px at 20% 20%, rgba(239,68,68,.16), transparent 55%),
+        radial-gradient(300px 160px at 85% 25%, rgba(6,182,212,.14), transparent 58%),
+        radial-gradient(300px 160px at 65% 90%, rgba(251,191,36,.14), transparent 60%),
+        rgba(255,255,255,.07);
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+      display:none;
+      z-index:9999;
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+    .toast.show{ display:block }
+
+    html{ scroll-behavior:smooth; }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- ✅ TOPBAR PADRÃO -->
+    <div class="topbar">
+      <div class="brand">
+        <img src="/imagens/logo.png" alt="Barbearia Las Vegas Logo">
+        <div class="titles">
+          <div class="name" id="brandName">Barbearia Las Vegas</div>
+          <div class="sub" id="sub">Portal do Barbeiro</div>
+        </div>
+      </div>
+
+      <div class="navlinks">
+        <a class="btn" href="../">Cliente</a>
+        <a class="btn primary" href="../admin/">Admin</a>
+        <button class="btn danger" id="logoutBtn" style="display:none">Sair</button>
+      </div>
+    </div>
+
+    <!-- ✅ GRID PADRÃO -->
+    <div class="grid">
+      <div class="card" id="loginCard">
+        <h2>Entrar (Barbeiro)</h2>
+        <div class="muted small">Login com email/senha criado pelo Admin.</div>
+
+        <div class="field">
+          <label>Email</label>
+          <input class="input" id="email" placeholder="barbeiro@exemplo.com">
+        </div>
+        <div class="field">
+          <label>Senha</label>
+          <input class="input" id="password" type="password" placeholder="••••••••">
+        </div>
+
+        <!-- ✅ botão com estilo padrão -->
+        <button class="btn secondary" id="loginBtn">Entrar</button>
+      </div>
+
+      <div class="card" id="panelCard" style="display:none">
+        <div class="kpis">
+          <div class="kpi"><div class="v" id="kToday">—</div><div class="l">Agendamentos</div></div>
+          <div class="kpi"><div class="v" id="kNext">—</div><div class="l">Próximo</div></div>
+          <div class="kpi"><div class="v" id="kDone">—</div><div class="l">Concluídos</div></div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label>Data</label>
+            <input class="input" id="date" type="date">
+          </div>
+          <button class="btn" id="refreshBtn">Atualizar</button>
+        </div>
+
+        <h2>Agenda</h2>
+        <div class="muted small">Atualiza sozinho quando o cliente agenda (Realtime).</div>
+        <div id="list" class="list"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <!-- ✅ NÃO MEXI EM NADA DO SUPABASE / JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://dpvgcjzsigaqnqainmro.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_931ojZ41L4aq-rctZFIFuw_-3qCo1qB";
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const LV = {
+      toast(msg){
+        const el = document.querySelector("#toast");
+        el.textContent = msg;
+        el.classList.add("show");
+        setTimeout(()=>el.classList.remove("show"), 2600);
+      },
+      todayISO(){
+        const d = new Date(); d.setHours(0,0,0,0); return d.toISOString().slice(0,10);
+      }
+    };
+
+    const brandName = document.querySelector("#brandName");
+    const loginCard = document.querySelector("#loginCard");
+    const panelCard = document.querySelector("#panelCard");
+    const logoutBtn = document.querySelector("#logoutBtn");
+
+    const email = document.querySelector("#email");
+    const password = document.querySelector("#password");
+    const loginBtn = document.querySelector("#loginBtn");
+
+    const date = document.querySelector("#date");
+    const refreshBtn = document.querySelector("#refreshBtn");
+    const list = document.querySelector("#list");
+
+    const kToday = document.querySelector("#kToday");
+    const kNext = document.querySelector("#kNext");
+    const kDone = document.querySelector("#kDone");
+
+    let BARBER_ID = null;
+    let realtimeChannel = null;
+
+    function escapeHtml(str){
+      return (str||"").replace(/[&<>"']/g, (m)=>({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+      }[m]));
+    }
+
+    function statusPill(st){
+      const map = {
+        confirmado: ["ok","Confirmado"],
+        concluido: ["ok","Concluído"],
+        pendente: ["info","Pendente"],
+        cancelado: ["bad","Cancelado"],
+        nao_compareceu: ["bad","Não veio"],
+      };
+      const [cls, txt] = map[st] || ["info","Status"];
+      return `<span class="pill ${cls}">${txt}</span>`;
+    }
+
+    async function loadBrand(){
+      const { data } = await sb.from("lv_config").select("brand_name").eq("id",1).maybeSingle();
+      brandName.textContent = data?.brand_name || "Barbearia Las Vegas";
+    }
+
+    async function getBarberIdByUser(){
+      const { data: { user } } = await sb.auth.getUser();
+      if(!user) return null;
+
+      const { data, error } = await sb
+        .from("lv_staff")
+        .select("role, barber_id")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if(error) return null;
+      if(!data || data.role !== "barber" || !data.barber_id) return null;
+      return data.barber_id;
+    }
+
+    async function login(){
+      const e = (email.value||"").trim();
+      const p = (password.value||"").trim();
+      if(!e || !p) return LV.toast("Digite email e senha.");
+      const { error } = await sb.auth.signInWithPassword({ email: e, password: p });
+      if(error) return LV.toast("Erro: " + error.message);
+      LV.toast("Entrou!");
+      await renderAuth();
+    }
+
+    async function logout(){
+      await sb.auth.signOut();
+      LV.toast("Saiu.");
+      await renderAuth();
+    }
+
+    async function listBookings(dateISO){
+      const { data, error } = await sb
+        .from("lv_bookings")
+        .select("*")
+        .eq("barber_id", BARBER_ID)
+        .eq("date_iso", dateISO)
+        .order("time_hhmm", { ascending:true });
+
+      if(error) throw error;
+      return data || [];
+    }
+
+    async function updateStatus(id, st){
+      const { error } = await sb
+        .from("lv_bookings")
+        .update({ status: st, updated_at: new Date().toISOString() })
+        .eq("id", id);
+
+      if(error) return LV.toast("Erro: " + error.message);
+      LV.toast("Status atualizado.");
+      await renderAgenda();
+    }
+
+    async function renderAgenda(){
+      if(!BARBER_ID) return;
+      const d = date.value || LV.todayISO();
+      list.innerHTML = `<div class="muted small">Carregando…</div>`;
+
+      let all = [];
+      try { all = await listBookings(d); }
+      catch(e){ console.error(e); list.innerHTML = `<div class="muted small">Erro ao carregar.</div>`; return; }
+
+      list.innerHTML = "";
+      if(all.length === 0) list.innerHTML = `<div class="muted small">Sem agendamentos.</div>`;
+
+      let next = "—";
+      let done = 0;
+      const nowTs = Date.now();
+
+      for(const b of all){
+        if(b.status === "concluido") done++;
+
+        const bTs = new Date(`${b.date_iso}T${b.time_hhmm}:00`).getTime();
+        if(next==="—" && bTs >= nowTs && !["cancelado","nao_compareceu","concluido"].includes(b.status)){
+          next = b.time_hhmm;
+        }
+
+        const div = document.createElement("div");
+        div.className="item";
+        div.innerHTML = `
+          <div class="top">
+            <div>
+              <div style="font-weight:750">${escapeHtml(b.time_hhmm)} • ${escapeHtml(b.service_name)} • ${escapeHtml(b.customer_name)}</div>
+              <div class="muted small">Tel: ${escapeHtml(b.customer_phone)} • Código: ${escapeHtml(b.id)}</div>
+              <div class="row" style="margin-top:8px; gap:8px">
+                ${statusPill(b.status)}
+                <span class="pill">${Number(b.duration_min||0)}min</span>
+                <span class="pill">${b.notes ? "Obs: "+escapeHtml(b.notes) : "Sem observação"}</span>
+              </div>
+            </div>
+            <div class="row">
+              <button class="btn secondary" data-act="done">Concluir</button>
+              <button class="btn" data-act="confirm">Confirmar</button>
+              <button class="btn danger" data-act="noshow">Não veio</button>
+            </div>
+          </div>
+        `;
+
+        div.querySelector('[data-act="done"]').onclick = ()=>updateStatus(b.id, "concluido");
+        div.querySelector('[data-act="confirm"]').onclick = ()=>updateStatus(b.id, "confirmado");
+        div.querySelector('[data-act="noshow"]').onclick = ()=>updateStatus(b.id, "nao_compareceu");
+
+        list.appendChild(div);
+      }
+
+      kToday.textContent = String(all.length);
+      kDone.textContent = String(done);
+      kNext.textContent = next;
+    }
+
+    function stopRealtime(){
+      if(realtimeChannel){
+        sb.removeChannel(realtimeChannel);
+        realtimeChannel = null;
+      }
+    }
+
+    function startRealtime(){
+      stopRealtime();
+      if(!BARBER_ID) return;
+
+      realtimeChannel = sb.channel("lv_bookings_realtime_"+BARBER_ID)
+        .on("postgres_changes", {
+          event: "*",
+          schema: "public",
+          table: "lv_bookings",
+          filter: `barber_id=eq.${BARBER_ID}`
+        }, async () => {
+          await renderAgenda();
+        })
+        .subscribe();
+    }
+
+    async function renderAuth(){
+      await loadBrand();
+
+      const { data: { session } } = await sb.auth.getSession();
+      const ok = !!session;
+
+      loginCard.style.display = ok ? "none" : "block";
+      panelCard.style.display = ok ? "block" : "none";
+      logoutBtn.style.display = ok ? "inline-flex" : "none";
+
+      if(!ok){
+        BARBER_ID = null;
+        stopRealtime();
+        return;
+      }
+
+      const barberId = await getBarberIdByUser();
+      if(!barberId){
+        await sb.auth.signOut();
+        LV.toast("Sem permissão de barbeiro.");
+        return;
+      }
+
+      BARBER_ID = barberId;
+      date.value = LV.todayISO();
+      await renderAgenda();
+      startRealtime();
+    }
+
+    loginBtn.onclick = login;
+    password.addEventListener("keyup",(e)=>{ if(e.key==="Enter") login(); });
+    logoutBtn.onclick = logout;
+
+    refreshBtn.onclick = renderAgenda;
+    date.addEventListener("change", renderAgenda);
+
+    sb.auth.onAuthStateChange(renderAuth);
+    renderAuth();
+  </script>
+</body>
+</html>

@@ -3,54 +3,346 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin • Barbearia Las Vegas</title>
-  <link rel="icon" href="../assets/logo.png">
+  <title>Administrador</title>
+
+  <!-- ✅ Padrão do cliente -->
+  <link rel="icon" type="image/png" href="/imagens/logo.png">
+
+  <!-- Fonts (premium) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- ✅ DESIGN/ESTRUTURA IGUAL AO PADRÃO -->
   <style>
-    /* mantém seu CSS (resumido aqui pra não explodir) */
-    :root{--bg:#0b0c10;--panel:#12141b;--panel2:#171a22;--text:#f5f7ff;--muted:#aab0c0;--brand:#ffd166;--ok:#2dd4bf;--bad:#fb7185;--line:rgba(255,255,255,.08);--shadow:0 18px 60px rgba(0,0,0,.55);--radius:18px;}
-    *{box-sizing:border-box} html,body{height:100%}
-    body{margin:0;color:var(--text);font-family:system-ui;background:linear-gradient(180deg,#07080c,#0b0c10 30%,#0b0c10);}
-    a{color:inherit;text-decoration:none}
-    .container{max-width:1100px;margin:0 auto;padding:24px}
-    .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 16px;border:1px solid var(--line);background:rgba(18,20,27,.65);backdrop-filter: blur(10px);border-radius: var(--radius);box-shadow: var(--shadow);}
-    .brand{display:flex;align-items:center;gap:12px;min-width:0;}
-    .brand img{height:44px;border-radius:12px;border:1px solid var(--line);background:#fff}
-    .brand .name{font-weight:800}
-    .brand .sub{font-size:12px;color:var(--muted);margin-top:2px}
-    .navlinks{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
-    .btn{cursor:pointer;border:1px solid var(--line);background:rgba(23,26,34,.6);color:var(--text);padding:10px 12px;border-radius:14px;user-select:none}
-    .btn.ok{background:rgba(45,212,191,.10)}
-    .btn.danger{background:rgba(251,113,133,.10)}
-    .grid{display:grid;gap:16px;grid-template-columns: 1.1fr .9fr;margin-top:18px}
-    @media (max-width: 920px){ .grid{grid-template-columns:1fr} }
-    .card{border:1px solid var(--line);background:rgba(18,20,27,.55);backdrop-filter: blur(10px);border-radius: var(--radius);box-shadow: var(--shadow);padding:16px;}
-    .muted{color:var(--muted)} .small{font-size:12px}
-    .hr{height:1px;background:var(--line);margin:14px 0}
-    .row{display:flex;gap:10px;flex-wrap:wrap}
-    .field{display:flex;flex-direction:column;gap:6px;margin:10px 0;flex:1;min-width:220px}
-    label{font-size:12px;color:var(--muted)}
-    .input, select{width:100%;padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:rgba(23,26,34,.7);color:var(--text);outline:none}
-    .list{display:flex;flex-direction:column;gap:10px}
-    .item{border:1px solid var(--line);border-radius:16px;padding:12px;background:rgba(23,26,34,.55)}
-    .item .top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
-    .item .title{font-weight:750}
-    .toast{position:fixed;right:18px;bottom:18px;max-width:min(420px, calc(100vw - 36px));padding:12px 14px;border-radius:16px;border:1px solid var(--line);background:rgba(18,20,27,.82);backdrop-filter: blur(10px);box-shadow: var(--shadow);display:none;}
-    .toast.show{display:block}
+    :root{
+      --bg0:#071028;
+      --bg1:#0b1f3f;
+      --bg2:#0a2f4a;
+      --bg3:#113a3f;
+
+      --card: rgba(255,255,255,.085);
+      --card2: rgba(255,255,255,.06);
+      --glass: rgba(255,255,255,.05);
+      --line: rgba(255,255,255,.18);
+
+      --text:#f7f7ff;
+      --muted:#d7dde8;
+
+      --gold:#fbbf24;
+      --gold2:#f97316;
+      --red:#ef4444;
+      --red2:#dc2626;
+      --teal:#06b6d4;
+      --blue:#2563eb;
+
+      --ok:#22c55e;
+      --bad:#fb7185;
+
+      --radius: 22px;
+      --shadow: 0 24px 70px rgba(0,0,0,.45);
+    }
+
+    *{ box-sizing:border-box }
+    html,body{ height:100% }
+    body{
+      margin:0;
+      font-family: "Poppins", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      overflow-x:hidden;
+
+      background:
+        radial-gradient(900px 520px at 14% 10%, rgba(239,68,68,.18), transparent 58%),
+        radial-gradient(900px 520px at 88% 12%, rgba(6,182,212,.18), transparent 60%),
+        radial-gradient(900px 520px at 70% 92%, rgba(251,191,36,.16), transparent 62%),
+        radial-gradient(800px 520px at 18% 92%, rgba(249,115,22,.14), transparent 60%),
+        linear-gradient(135deg, var(--bg1), var(--bg2) 48%, var(--bg3));
+      background-attachment: fixed;
+    }
+
+    body:before{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      background-image:
+        radial-gradient(circle at 25% 25%, rgba(255,255,255,.05) 0 1px, transparent 2px),
+        radial-gradient(circle at 80% 60%, rgba(255,255,255,.04) 0 1px, transparent 2px),
+        radial-gradient(circle at 40% 75%, rgba(255,255,255,.03) 0 1px, transparent 2px);
+      background-size: 240px 240px, 300px 300px, 360px 360px;
+      opacity:.33;
+      mix-blend-mode: overlay;
+    }
+
+    a{ color:inherit; text-decoration:none }
+    .container{ max-width:1180px; margin:0 auto; padding:26px }
+    @media (max-width:520px){ .container{ padding:16px } }
+
+    /* ===== Topbar (ultra) ===== */
+    .topbar{
+      position:relative;
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+      padding:16px 18px;
+      border:1px solid var(--line);
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .topbar:after{
+      content:"";
+      position:absolute;
+      inset:-60% -60%;
+      background:
+        linear-gradient(110deg,
+          transparent 0%,
+          rgba(239,68,68,.14) 30%,
+          rgba(6,182,212,.14) 45%,
+          rgba(251,191,36,.14) 58%,
+          rgba(249,115,22,.12) 66%,
+          transparent 78%
+        );
+      transform: translateX(-40%);
+      animation: sweep 7.5s linear infinite;
+      pointer-events:none;
+      opacity:.95;
+    }
+    @keyframes sweep{
+      0%{ transform: translateX(-50%) rotate(0.001deg); }
+      100%{ transform: translateX(50%) rotate(0.001deg); }
+    }
+
+    .brand{ display:flex; align-items:center; gap:12px; min-width:0; z-index:1; }
+    .brand img{
+      height:80px;
+      width:auto;
+      object-fit:contain;
+      border:none;
+      background:transparent;
+      filter: drop-shadow(0 0 14px rgba(239,68,68,.25))
+              drop-shadow(0 0 18px rgba(251,191,36,.22))
+              drop-shadow(0 0 16px rgba(6,182,212,.18));
+    }
+    .titles{ min-width:0 }
+    .titles .name{
+      font-family:"Playfair Display", serif;
+      font-weight:800;
+      letter-spacing:.7px;
+      font-size:20px;
+      line-height:1.1;
+      background: linear-gradient(90deg, var(--gold), rgba(255,255,255,.98), var(--red));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      text-shadow: 0 0 18px rgba(251,191,36,.14);
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .titles .sub{
+      margin-top:2px;
+      font-size:12px;
+      color:rgba(215,221,232,.94);
+      letter-spacing:.2px;
+    }
+
+    .navlinks{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:flex-end; z-index:1 }
+
+    /* ===== Buttons ===== */
+    .btn{
+      cursor:pointer;
+      border:1px solid rgba(255,255,255,.18);
+      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
+      color:var(--text);
+      padding:11px 14px;
+      border-radius: 16px;
+      transition: transform .12s ease, box-shadow .25s ease, border-color .25s ease, filter .25s ease;
+      box-shadow: 0 14px 34px rgba(0,0,0,.25);
+      user-select:none;
+      display:inline-flex; align-items:center; gap:8px;
+      white-space:nowrap;
+      font-weight:700;
+      letter-spacing:.2px;
+    }
+    .btn:hover{
+      transform: translateY(-2px);
+      border-color: rgba(239,68,68,.28);
+      box-shadow: 0 18px 44px rgba(0,0,0,.32), 0 0 0 3px rgba(239,68,68,.10) inset;
+    }
+    .btn:active{ transform: translateY(0px) scale(.99) }
+
+    .btn.secondary{
+      border:none;
+      background: linear-gradient(90deg, rgba(6,182,212,.96), rgba(37,99,235,.92));
+      box-shadow:
+        0 18px 44px rgba(0,0,0,.30),
+        0 0 26px rgba(6,182,212,.14),
+        0 0 22px rgba(37,99,235,.12);
+    }
+    .btn.secondary:hover{
+      filter: brightness(1.03);
+      box-shadow:
+        0 22px 54px rgba(0,0,0,.34),
+        0 0 34px rgba(6,182,212,.16),
+        0 0 30px rgba(37,99,235,.14);
+    }
+
+    .btn.primary{
+      border:none;
+      color:#140c2a;
+      background: linear-gradient(90deg, var(--gold), var(--gold2));
+      box-shadow:
+        0 18px 44px rgba(0,0,0,.30),
+        0 0 28px rgba(251,191,36,.18);
+      position:relative;
+      overflow:hidden;
+    }
+    .btn.primary:after{
+      content:"";
+      position:absolute;
+      inset:-40% -40%;
+      background: linear-gradient(110deg, transparent 25%, rgba(255,255,255,.35) 45%, transparent 65%);
+      transform: translateX(-60%);
+      animation: shine 2.8s ease-in-out infinite;
+      opacity:.55;
+      pointer-events:none;
+    }
+    @keyframes shine{
+      0%{ transform: translateX(-65%); }
+      55%{ transform: translateX(65%); }
+      100%{ transform: translateX(65%); }
+    }
+
+    .btn.danger{
+      border-color: rgba(251,113,133,.26);
+      background: rgba(251,113,133,.10);
+    }
+
+    /* ===== Layout ===== */
+    .grid{
+      display:grid;
+      gap:16px;
+      grid-template-columns: 1.1fr .9fr;
+      margin-top:16px;
+    }
+    @media (max-width: 920px){
+      .grid{ grid-template-columns:1fr }
+      .navlinks{ justify-content:flex-start }
+    }
+    @media (max-width:520px){
+      .topbar{ flex-direction:column; align-items:stretch }
+      .navlinks{ justify-content:flex-start }
+      .btn{ width:100%; justify-content:center }
+    }
+
+    .card{
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.07);
+      backdrop-filter: blur(18px);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      padding:20px;
+      position:relative;
+      overflow:hidden;
+    }
+    .card:before{
+      content:"";
+      position:absolute; inset:-1px;
+      border-radius: 26px;
+      padding:1px;
+      background:
+        linear-gradient(120deg,
+          rgba(239,68,68,.22),
+          rgba(6,182,212,.16),
+          rgba(251,191,36,.16),
+          rgba(255,255,255,.06)
+        );
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events:none;
+      opacity:.62;
+    }
+
+    .card h2{
+      margin:0 0 8px 0;
+      font-family:"Playfair Display", serif;
+      font-size:22px;
+      letter-spacing:.2px;
+    }
+
+    .muted{ color:rgba(215,221,232,.92) }
+    .small{ font-size:12px }
+    .hr{ height:1px; background:rgba(255,255,255,.12); margin:14px 0 }
+    .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:end }
+
+    .field{ display:flex; flex-direction:column; gap:7px; margin:10px 0; flex:1; min-width:220px }
+    label{ font-size:12px; color:rgba(215,221,232,.92); letter-spacing:.2px }
+
+    .input, select{
+      width:100%;
+      padding:12px 12px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      outline:none;
+      box-shadow: 0 10px 28px rgba(0,0,0,.18) inset;
+    }
+    .input::placeholder{ color:rgba(215,221,232,.72) }
+    .input:focus, select:focus{
+      border-color: rgba(251,191,36,.60);
+      box-shadow: 0 0 0 3px rgba(251,191,36,.14), 0 14px 34px rgba(0,0,0,.22) inset;
+    }
+
+    .list{ display:flex; flex-direction:column; gap:10px }
+    .item{
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:20px;
+      padding:14px;
+      background: rgba(255,255,255,.06);
+      box-shadow: 0 18px 44px rgba(0,0,0,.24);
+    }
+    .item .top{ display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; align-items:flex-start }
+    .item .title{ font-weight:800; letter-spacing:.15px }
+
+    /* Toast (padrão) */
+    .toast{
+      position:fixed; right:18px; bottom:18px; max-width:min(420px, calc(100vw - 36px));
+      padding:12px 14px; border-radius:18px;
+      border:1px solid rgba(255,255,255,.16);
+      background:
+        radial-gradient(300px 160px at 20% 20%, rgba(239,68,68,.16), transparent 55%),
+        radial-gradient(300px 160px at 85% 25%, rgba(6,182,212,.14), transparent 58%),
+        radial-gradient(300px 160px at 65% 90%, rgba(251,191,36,.14), transparent 60%),
+        rgba(255,255,255,.07);
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+      display:none;
+      z-index:9999;
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+    .toast.show{ display:block }
+
+    html{ scroll-behavior:smooth; }
   </style>
 </head>
+
 <body>
   <div class="container">
+    <!-- ✅ TOPBAR PADRÃO -->
     <div class="topbar">
       <div class="brand">
-        <img src="../assets/logo.png" alt="Logo">
-        <div>
+        <img src="/imagens/logo.png" alt="Barbearia Las Vegas Logo">
+        <div class="titles">
           <div class="name" id="brandName">Barbearia Las Vegas</div>
-          <div class="sub">Admin • Supabase Auth + Edge Function</div>
+          <div class="sub">Portal do Administrador</div>
         </div>
       </div>
+
       <div class="navlinks">
         <a class="btn" href="../">Cliente</a>
-        <a class="btn" href="../barbeiro/">Barbeiro</a>
+        <a class="btn secondary" href="../barbeiro/">Barbeiro</a>
         <button class="btn danger" id="logoutBtn" style="display:none">Sair</button>
       </div>
     </div>
@@ -68,7 +360,9 @@
           <label>Senha</label>
           <input class="input" id="password" type="password" placeholder="••••••••">
         </div>
-        <button class="btn ok" id="loginBtn">Entrar</button>
+
+        <!-- ✅ Mantive seu botão, só no estilo padrão -->
+        <button class="btn secondary" id="loginBtn">Entrar</button>
 
         <div class="hr"></div>
         <div class="muted small">
@@ -108,7 +402,7 @@
             <input class="input" id="maxDays" type="number" min="1" step="1">
           </div>
           <div class="field" style="align-self:end">
-            <button class="btn ok" id="saveConfig">Salvar</button>
+            <button class="btn secondary" id="saveConfig">Salvar</button>
           </div>
         </div>
 
@@ -119,7 +413,7 @@
           <div class="field"><label>Nome</label><input class="input" id="svcName" placeholder="Corte"></div>
           <div class="field"><label>Duração (min)</label><input class="input" id="svcDur" type="number" min="5" step="5" value="30"></div>
           <div class="field"><label>Preço (R$)</label><input class="input" id="svcPrice" type="number" min="0" step="1" value="40"></div>
-          <div class="field" style="align-self:end"><button class="btn ok" id="addSvc">Adicionar</button></div>
+          <div class="field" style="align-self:end"><button class="btn secondary" id="addSvc">Adicionar</button></div>
         </div>
         <div id="svcList" class="list"></div>
 
@@ -134,7 +428,7 @@
           <div class="field"><label>Nome do barbeiro</label><input class="input" id="brbName" placeholder="Matheus"></div>
           <div class="field"><label>Email do barbeiro</label><input class="input" id="brbEmail" placeholder="matheus@exemplo.com"></div>
           <div class="field"><label>Senha (>= 6)</label><input class="input" id="brbPass" placeholder="senha123"></div>
-          <div class="field" style="align-self:end"><button class="btn ok" id="addBarber">Criar barbeiro</button></div>
+          <div class="field" style="align-self:end"><button class="btn secondary" id="addBarber">Criar barbeiro</button></div>
         </div>
 
         <div id="brbList" class="list"></div>
@@ -143,13 +437,14 @@
 
         <h2>Horários</h2>
         <div id="hoursGrid" class="list"></div>
-        <button class="btn ok" id="saveHours">Salvar horários</button>
+        <button class="btn secondary" id="saveHours">Salvar horários</button>
       </div>
     </div>
   </div>
 
   <div id="toast" class="toast"></div>
 
+  <!-- ✅ NÃO MEXI NO JS/SUPABASE -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const SUPABASE_URL = "https://dpvgcjzsigaqnqainmro.supabase.co";
@@ -361,7 +656,6 @@
 
       const barberId = LV.uid("BRB_");
 
-      // chama Edge Function (precisa admin logado)
       const { data: { session } } = await sb.auth.getSession();
       if(!session) return LV.toast("Faça login.");
 
